@@ -5,7 +5,7 @@ import MySQLdb as mdb
 #This function reads the job details from each mail file and 
 #store job details in a database named hpc_job
 def dateconvert(dateWild):
-  data = dateWild.split()
+	data = dateWild.split()
 	data_dby = ' '.join(data[2:5])
 	dateAll = time.strptime(data_dby,"%d %b %Y")
 	dateMild = time.strftime("%Y-%m-%d",dateAll)
@@ -28,17 +28,17 @@ def readJobDetail(inputFile):
 		if (detail[0] == "Date:") and (dateCount == 0):
 			jobDate = dateconvert(line)
 			dateCount = dateCount + 1
-			print jobDate
+			#print jobDate
 		elif detail[0] == "PBS":
 			if (detail[1] == "Job") and (detail[2] == "Id:") and (idCount == 0):
 				jobId = detail[3]
 				idCount = idCount + 1
-				print jobId
+				#print jobId
 		elif detail[0] == "Job":
 			if (detail[1] == "Name") and (nameCount == 0):
 				jobName = detail[2]
 				nameCount = nameCount +1
-				print jobName
+				#print jobName
 		elif line =="Begun execution\n":
 			startFlag = 1
 		elif line =="Execution terminated\n":
