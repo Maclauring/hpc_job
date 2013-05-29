@@ -63,7 +63,7 @@ def readJobDetail(inputFile):
 		jobDeleted = 1;
 	else:
 		print "Start and end flag is wrong!\n"
-	print startFlag,endFlag
+	#print startFlag,endFlag
 
 def main(argv):
 	#List mail file and store file name in fileList
