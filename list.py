@@ -2,15 +2,16 @@
 import os, sys, string, time
 import MySQLdb as mdb
 
-#This function reads the job details from each mail file and 
-#store job details in a database named hpc_job
+#This function convert the date in email to MySQL date format
 def dateconvert(dateWild):
 	data = dateWild.split()
 	data_dby = ' '.join(data[2:5])
 	dateAll = time.strptime(data_dby,"%d %b %Y")
 	dateMild = time.strftime("%Y-%m-%d",dateAll)
 	return dateMild
-
+	
+#This function reads the job details from each mail file and 
+#store job details in a database named hpc_job
 def readJobDetail(inputFile):
 	f = open("%s" % inputFile, "r")
 	startFlag = 0;endFlag = 0
