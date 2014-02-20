@@ -4,62 +4,89 @@
 	<link href='http://fonts.googleapis.com/css?family=Alef:400,700' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Dancing+Script' rel='stylesheet' type='text/css'>
 	<link href='hpc_job.css' rel='stylesheet' type='text/css'>
+	<script src='jquery-1.10.2.min.js'></script>
+	<script src='hpc_job.js'></script>
 </head>
-<center>
-<body style="background-color: 7FC6BC">
-<h1>A Birdview of Your Day</h1>
-<?php
-$username="hpc_job_user";
-$password="hpc_job_pwd";
-$database="hpc_job";
+<body>
+	<?php
+	$username="hpc_job_user";
+	$password="hpc_job_pwd";
+	$database="hpc_job";
+	mysql_connect('localhost',$username,$password);
+	@mysql_select_db($database) or die( "Unable to select database");
+	$query="SELECT * FROM job_detail";
+	$result=mysql_query($query);
+	$num=mysql_numrows($result);
+	mysql_close();
+	?>
+	<div id='wrap'>
+	<div id='tabmenu'>
+		<h1>HPC Jobs</h1>
+		<ul class='menu'>
+			<li><a href='#job-count'>Job Count</a></li>
+			<li><a href='#job-list'>Job List</a></li>
+			<li><a href='#about'>About</a></li>
+		</ul>
+		<div class='separator'></div>
+		<div id='footer'>
+			Follow me at twitter: <a href='https://twitter.com/wojiefu'>@wojiefu</a> :)
+		</div>
+	</div>
+	<div id='container'>
+		<div id='job-count'>
+			<h2>Job Count</h2>
+			<p class='count'><?php echo $num ?></p>
+			<div class='container-section'>
+				<span>This count show the total number of jobs that had been submitted.</span>
+			</div>
+		</div>
 
-mysql_connect('localhost',$username,$password);
-@mysql_select_db($database) or die( "Unable to select database");
-$query="SELECT * FROM job_detail";
-$result=mysql_query($query);
+		<div id='job-list'>
+			<h2>Job List</h2>
+			<div>
+				<table class='list'>
+				<tr class='list-head'>
+					<td>NO.</td>
+					<td>Job ID</td>
+					<td>Job Name</td>
+					<td>Begin Date</td>
+					<td>End Date</td>
+					<td>Used Time</td>
+				</tr>
 
-$num=mysql_numrows($result);
+				<?php
+				$i=0;
+				$j=0;
+				while ($i < $num) {
+					$j=$num-$i-1;
+					$f0=$j;
+					$f1=mysql_result($result,$j,"job_id");
+					$f2=mysql_result($result,$j,"job_name");
+					$f3=mysql_result($result,$j,"begin_date");
+					$f4=mysql_result($result,$j,"end_date");
+					$f5=mysql_result($result,$j,"used_time");
+					?>
+					<tr class='list-content'>
+						<td><?php echo $f0; ?></td>
+						<td><?php echo $f1; ?></td>
+						<td><?php echo $f2; ?></td>
+						<td><?php echo $f3; ?></td>
+						<td><?php echo $f4; ?></td>
+						<td><?php echo $f5; ?></td>
+					</tr>
+					<?php
+					$i++;
+				}?>
+			</div>
+		</div>
 
-mysql_close();
-?>
-<div><table border="0" cellspacing="2" cellpadding="2" style="background-color: 4BB5C1">
-<!--thead><span style="font-family: 'Dancing Script', cursive;;font-weight:700; font-size:40">A Birdview of Your Day</span></thead-->
-<tr>
-<td><font face="Alef">NO.</font></td>
-<td><font face="Alef">Job ID</font></td>
-<td><font face="Alef, Helvetica, sans-serif">Job Name</font></td>
-<td><font face="Alef, Helvetica, sans-serif">Begin Date</font></td>
-<td><font face="Alef, Helvetica, sans-serif">End Date</font></td>
-<td><font face="Alef, Helvetica, sans-serif">Used Time</font></td>
-</tr>
-
-<?php
-$i=0;
-$j=0;
-while ($i < $num) {
-$j=$num-$i-1;
-$f0=$j;
-$f1=mysql_result($result,$j,"job_id");
-$f2=mysql_result($result,$j,"job_name");
-$f3=mysql_result($result,$j,"begin_date");
-$f4=mysql_result($result,$j,"end_date");
-$f5=mysql_result($result,$j,"used_time");
-?>
-
-<tr>
-<td><font face="Alef"><?php echo $f0; ?></font></td>
-<td><font face="Alef"><?php echo $f1; ?></font></td>
-<td><font face="Alef"><?php echo $f2; ?></font></td>
-<td><font face="Alef"><?php echo $f3; ?></font></td>
-<td><font face="Alef"><?php echo $f4; ?></font></td>
-<td><font face="Alef"><?php echo $f5; ?></font></td>
-</tr>
-
-<?php
-$i++;
-}
-?>
+		<div id='about'>
+			<h2>About</h2>
+			<div class='container-section'>
+				<span>This page records jobs that had been submitted by Jianfeng on HPC.</span>
+			</div>
+		</div>
+	</div>
 </div>
 </body>
-</center>
 </html>
